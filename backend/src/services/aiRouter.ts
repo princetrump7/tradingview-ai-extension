@@ -155,7 +155,7 @@ function runStructuredAnalysis(
   context: ChartContext,
   options: { market: MarketType; tier: TierType },
 ) {
-  const price = context.currentPrice ?? parseFloat(vision.entryZone.split('-')[0]) || 1890
+  const price = context.currentPrice ?? (parseFloat(vision.entryZone.split('-')[0]) || 1890)
   const isBullish = vision.bias === 'bullish'
   const confidence = parseFloat(vision.confidence) || 50
 
@@ -224,7 +224,7 @@ function runStructuredAnalysis(
           priceRange: [
             parseFloat((entry.low - price * 0.005).toFixed(2)),
             parseFloat((entry.high + price * 0.005).toFixed(2)),
-          ],
+          ] as [number, number],
           strength: 'moderate' as const,
         },
       ],
@@ -235,7 +235,7 @@ function runStructuredAnalysis(
         sellSide: !isBullish
           ? { price: parseFloat((price * 0.97).toFixed(2)), distancePercent: 3.0 }
           : null,
-        nearestSide: isBullish ? 'buy' : 'sell',
+        nearestSide: (isBullish ? 'buy' : 'sell') as 'buy' | 'sell',
         nearestDistancePercent: 3.0,
       },
     },

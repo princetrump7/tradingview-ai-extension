@@ -34,7 +34,7 @@ function getStripe(): import('stripe').Stripe {
   if (!stripeClient) {
     const Stripe = require('stripe') as typeof import('stripe').default
     stripeClient = new Stripe(STRIPE_SECRET_KEY, {
-      apiVersion: '2024-11-20.acacia',
+      apiVersion: '2024-11-20.acacia' as any,
     })
   }
   return stripeClient
@@ -88,7 +88,7 @@ export async function handleStripeWebhook(
 
   switch (event.type) {
     case 'checkout.session.completed': {
-      const session = event.data.object as Record<string, unknown>
+      const session = event.data.object as unknown as Record<string, unknown>
       const userId = (session.metadata as Record<string, string>)?.['userId'] ?? session.client_reference_id as string
       const tier = (session.metadata as Record<string, string>)?.['tier'] ?? 'pro'
       const customerId = session.customer as string
@@ -111,7 +111,7 @@ export async function handleStripeWebhook(
 
     case 'customer.subscription.updated':
     case 'customer.subscription.deleted': {
-      const sub = event.data.object as Record<string, unknown>
+      const sub = event.data.object as unknown as Record<string, unknown>
       const customerId = sub.customer as string
 
       // Find subscription by customer ID
