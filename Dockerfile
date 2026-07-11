@@ -4,8 +4,8 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy backend package files into /app
-COPY backend/package.json backend/package-lock.json* ./
-RUN npm ci
+COPY backend/package.json backend/package-lock.json ./
+RUN npm install
 
 # Copy backend TypeScript source
 COPY backend/tsconfig.json ./
